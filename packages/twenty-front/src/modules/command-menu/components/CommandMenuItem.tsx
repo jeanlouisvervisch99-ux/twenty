@@ -43,6 +43,7 @@ export const CommandMenuItem = ({
   isSubMenuOpened = false,
   disabled = false,
   'aria-controls': ariaControls,
+  color = 'neutral',
 }: CommandMenuItemProps) => {
   const { t } = useLingui();
   const theme = useTheme();
@@ -85,6 +86,7 @@ export const CommandMenuItem = ({
       </>
     ),
     disabled,
+    color,
   };
 
   const item = hasNativeOwner ? (

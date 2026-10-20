@@ -5,6 +5,7 @@ import { fieldMetadataItemByIdSelector } from '@/object-metadata/states/fieldMet
 import { type RecordField } from '@/object-record/record-field/types/RecordField';
 import { RECORD_TABLE_CELL_CONTENT_CLASS_NAME } from '@/object-record/record-table/constants/RecordTableCellContentClassName';
 import { useAtomFamilySelectorValue } from '@/ui/utilities/state/jotai/hooks/useAtomFamilySelectorValue';
+import { getFieldTypeIconColor } from '@/object-record/utils/getFieldTypeIconColor';
 import { useIcons } from 'twenty-ui/icon';
 import { useTheme, themeCssVariables } from 'twenty-ui/theme';
 
@@ -47,7 +48,9 @@ export const RecordTableColumnHead = ({
 
   return (
     <StyledTitle className={RECORD_TABLE_CELL_CONTENT_CLASS_NAME}>
-      <StyledIcon>
+      <StyledIcon
+        style={{ color: getFieldTypeIconColor(fieldMetadataItem?.type) }}
+      >
         <Icon size={theme.icon.size.md} />
       </StyledIcon>
       <FieldDescriptionTooltip

@@ -3,6 +3,10 @@ import { useApplicationChipData } from '@/applications/hooks/useApplicationChipD
 import { useIsThirdPartyApplication } from '@/applications/hooks/useIsThirdPartyApplication';
 import { CommandListItemLoader } from '@/command-menu-item/display/components/CommandListItemLoader';
 import { useCommandMenuItemDisplay } from '@/command-menu-item/display/hooks/useCommandMenuItemDisplay';
+import {
+  getCommandMenuItemColor,
+  getCommandMenuItemColoredIcon,
+} from '@/command-menu-item/display/utils/getCommandMenuItemColor';
 import { type CommandMenuItemDefinition } from '@/command-menu-item/types/CommandMenuItemDefinition';
 import { Dropdown } from 'twenty-ui/components/navigation';
 
@@ -13,6 +17,8 @@ export const CommandMenuDropdownActionItem = ({
 }) => {
   const { Icon, label, handleClick, disabled, progress, isLoading } =
     useCommandMenuItemDisplay(item);
+  const itemColor = getCommandMenuItemColor(item);
+  const ColoredIcon = getCommandMenuItemColoredIcon(Icon, itemColor);
   const isThirdPartyApp = useIsThirdPartyApplication(item.applicationId);
   const { applicationChipData } = useApplicationChipData({
     applicationId: item.applicationId,
@@ -21,13 +27,14 @@ export const CommandMenuDropdownActionItem = ({
   return (
     <Dropdown.ActionItem
       disabled={disabled}
+      color={itemColor === 'danger' ? 'danger' : 'neutral'}
       onClick={handleClick}
       closeOnClick={false}
       startIcon={
         isThirdPartyApp ? (
           <AppMenuItemIcon applicationId={item.applicationId} />
         ) : (
-          <Icon />
+          <ColoredIcon />
         )
       }
       description={isThirdPartyApp ? applicationChipData.name : undefined}
