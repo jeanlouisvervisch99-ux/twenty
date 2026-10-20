@@ -1,5 +1,6 @@
 import { FieldDescriptionTooltip } from '@/object-record/record-field/ui/components/FieldDescriptionTooltip';
 import { styled } from '@linaria/react';
+import { getFieldTypeIconColor } from '@/object-record/utils/getFieldTypeIconColor';
 import { useContext } from 'react';
 import { useTheme, themeCssVariables } from 'twenty-ui/theme';
 
@@ -104,7 +105,11 @@ export const RecordInlineCellContainer = () => {
         >
           <StyledLabelAndIconContainer>
             {IconLabel && (
-              <StyledIconContainer>
+              <StyledIconContainer
+                style={{
+                  color: getFieldTypeIconColor(fieldDefinition?.type),
+                }}
+              >
                 <IconLabel
                   size={theme.icon.size.md}
                   stroke={theme.icon.stroke.sm}

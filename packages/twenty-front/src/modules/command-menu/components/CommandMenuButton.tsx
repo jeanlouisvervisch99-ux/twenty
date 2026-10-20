@@ -18,6 +18,7 @@ export type CommandMenuButtonProps = {
     hotKeys?: Nullable<string[]>;
     Icon: IconComponent;
     isPrimaryCTA?: boolean;
+    color?: 'neutral' | 'danger';
   };
   hotKey?: string;
   onClick?: (event?: MouseEvent<HTMLElement>) => void;
@@ -55,6 +56,8 @@ export const CommandMenuButton = ({
 
   const buttonAccent =
     isPrimaryAction || command.isPrimaryCTA === true ? 'blue' : 'default';
+  const buttonColor =
+    buttonAccent === 'blue' ? 'accent' : (command.color ?? 'neutral');
 
   return (
     <Tooltip
@@ -75,7 +78,7 @@ export const CommandMenuButton = ({
             loading={loading && !isDefined(progress)}
             aria-label={command.label}
             variant={buttonAccent === 'blue' ? 'solid' : 'outline'}
-            color={buttonAccent === 'blue' ? 'accent' : 'neutral'}
+            color={buttonColor}
             shortcut={isDefined(hotKey) ? [hotKey] : undefined}
           >
             {resolvedShortLabel}
@@ -84,7 +87,7 @@ export const CommandMenuButton = ({
           <IconButton
             size="sm"
             variant={buttonAccent === 'blue' ? 'solid' : 'outline'}
-            color={buttonAccent === 'blue' ? 'accent' : 'neutral'}
+            color={buttonColor}
             nativeButton={!isDefined(to)}
             role={isDefined(to) ? 'link' : undefined}
             render={isDefined(to) ? <Link to={to} /> : undefined}

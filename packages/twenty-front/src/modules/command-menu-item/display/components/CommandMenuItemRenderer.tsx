@@ -6,6 +6,10 @@ import { CommandMenuItemButtonHotkeyEffect } from '@/command-menu-item/display/c
 import { CommandListItemLoader } from '@/command-menu-item/display/components/CommandListItemLoader';
 import { CommandMenuDropdownActionItem } from '@/command-menu-item/display/components/CommandMenuDropdownActionItem';
 import { useCommandMenuItemDisplay } from '@/command-menu-item/display/hooks/useCommandMenuItemDisplay';
+import {
+  getCommandMenuItemColor,
+  getCommandMenuItemColoredIcon,
+} from '@/command-menu-item/display/utils/getCommandMenuItemColor';
 import { getCommandMenuItemButtonHotKey } from '@/command-menu-item/display/utils/getCommandMenuItemButtonHotKey';
 import { CommandMenuButton } from '@/command-menu/components/CommandMenuButton';
 import { CommandMenuItem } from '@/command-menu/components/CommandMenuItem';
@@ -52,12 +56,15 @@ const CommandMenuItemButtonRenderer = ({
     isLoading,
   } = useCommandMenuItemDisplay(item);
 
+  const itemColor = getCommandMenuItemColor(item);
+
   const command = {
     key: item.id,
     label,
     shortLabel,
-    Icon,
+    Icon: isPrimaryAction ? Icon : getCommandMenuItemColoredIcon(Icon, itemColor),
     hotKeys: item.hotKeys,
+    color: itemColor === 'danger' ? ('danger' as const) : ('neutral' as const),
   };
 
   const buttonHotKey = getCommandMenuItemButtonHotKey(item);
@@ -151,12 +158,18 @@ const CommandMenuItemSelectableRenderer = ({
     <SelectableListItem itemId={item.id} onEnter={onItemClick}>
       <CommandMenuItem
         id={item.id}
-        Icon={Icon}
+        Icon={getCommandMenuItemColoredIcon(
+          Icon,
+          getCommandMenuItemColor(item),
+        )}
         label={label}
         onClick={disabled ? undefined : handleClick}
         hotKeys={item.hotKeys}
         disabled={disabled}
         RightComponent={loaderComponent}
+        color={
+          getCommandMenuItemColor(item) === 'danger' ? 'danger' : 'neutral'
+        }
       />
     </SelectableListItem>
   );
