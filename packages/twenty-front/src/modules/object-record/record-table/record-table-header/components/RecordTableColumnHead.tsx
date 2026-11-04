@@ -6,7 +6,7 @@ import { type RecordField } from '@/object-record/record-field/types/RecordField
 import { RECORD_TABLE_CELL_CONTENT_CLASS_NAME } from '@/object-record/record-table/constants/RecordTableCellContentClassName';
 import { useAtomFamilySelectorValue } from '@/ui/utilities/state/jotai/hooks/useAtomFamilySelectorValue';
 import { getFieldTypeIconColor } from '@/object-record/utils/getFieldTypeIconColor';
-import { useIcons } from 'twenty-ui/icon';
+import { useIcons } from 'twenty-ui/icon/provider';
 import { useTheme, themeCssVariables } from 'twenty-ui/theme';
 
 const StyledTitle = styled.div`

@@ -41,11 +41,12 @@ Keep imports narrow:
 
 - Use `twenty-sdk/front-component` for front component hooks and host APIs.
 - Use `twenty-client-sdk/core` or `twenty-client-sdk/metadata` for data access.
+- Use `sendInboxMessage` and the inbox mention helpers from `twenty-sdk/front-component` to post in members' inbox (see `logic.md`). Open the conversation with `navigate(AppPath.AiChatInbox, { threadId })`: the route is main-page only, and it opens only for the conversation's participants.
 - Install `twenty-ui` from npm at the same version as `twenty-sdk` and `twenty-client-sdk` and import Twenty UI components, icons, and theme tokens from its subpaths (`twenty-ui/primitives/input`, `twenty-ui/primitives/data-display`, `twenty-ui/icon`, `twenty-ui/primitives/typography`, `twenty-ui/theme`, and others) before adding external UI libraries.
 
 Keep the SDK packages and `twenty-ui` in `devDependencies`. Import shared components from their family entry point, such as `twenty-ui/components/input` for `MainButton` and `LightButton`, `twenty-ui/components/feedback` for `Callout`, `twenty-ui/components/layout` for `Section`, and `twenty-ui/components/navigation` for `Dropdown`. Use `twenty-ui/primitives/input` for foundational controls such as `Button`, `Field` and `Input`.
 
-The front component renderer provides the styles and a Twenty `ThemeProvider` around the remote root. In the app, inherit the workspace color scheme without adding another root provider, forcing light or dark mode, or importing the standalone stylesheets. For isolated examples or local story-style verification, wrapping the component in `ThemeProvider` from `twenty-ui/theme` is also acceptable.
+Twenty loads the UI stylesheets and applies the workspace color scheme on the host. In the app, inherit the workspace color scheme without adding another root provider, forcing light or dark mode, or importing the standalone stylesheets. For isolated examples or local story-style verification, wrapping the component in `ThemeProvider` from `twenty-ui/theme` is also acceptable.
 
 The canonical Twenty UI front component example is `packages/twenty-front-component-renderer/src/__stories__/showcase/twenty-ui-example.front-component.tsx`. It imports `Button` from `twenty-ui/primitives/input`; `Chip`, `Status`, and `Tag` from `twenty-ui/primitives/data-display`; `Section` from `twenty-ui/components/layout`; and `ThemeProvider` from `twenty-ui/theme`. Its explicit provider is for the isolated showcase.
 
@@ -53,13 +54,15 @@ Read theme tokens with the `useTheme()` hook from `twenty-ui/theme` inside the c
 
 Prefer Twenty UI icons from `twenty-ui/icon` when one exists. Use inline SVG only for app-specific marks or icons that are not available from `twenty-ui/icon`.
 
-Import individual icons, not `IconsProvider` or `useIcons`, which bundle the dynamic icon catalog. Use `themeCssVariables` only for CSS values inside render-time code; its values are CSS reference strings, so do not perform arithmetic on them. Use `useTheme()` when a prop needs a resolved value.
+Import individual icons, not `twenty-ui/icon/provider` (`IconsProvider`, `useIcons`, by-name `Icon`), which bundles the dynamic icon catalog. Use `themeCssVariables` only for CSS values inside render-time code. In front components, `useTheme()` also returns CSS reference strings by default, including for tokens typed as numbers. Do not perform arithmetic on those references or pass them to APIs requiring resolved numbers.
 
 ## Host UI And Runtime Constraints
 
 Use `openCommandConfirmationModal` from `twenty-sdk/front-component` for confirmation dialogs, or `CommandModal` for a headless confirmation action. Use `enqueueSnackbar` for notifications. Do not render Twenty UI `Dialog` or `AlertDialog`, native `dialog` elements or native browser popovers directly. Use Twenty UI `Dropdown` for menus, pickers and nonmodal form panels.
 
 The component runs in a Web Worker with a partial DOM. Prefer CSS flexbox, grid and width-based container queries for layout. Avoid height-based breakpoints, which can oscillate when content determines widget height. `canvas`, `scrollIntoView` and native top-layer APIs are unsupported. Check the current limitations in the front component guide before depending on other browser APIs.
+
+Iframes stay sandboxed. An embedded phone or video tool receives microphone or camera access only through the embed flow in `../concepts/how-apps-work.md`.
 
 ## Record Context And Data
 

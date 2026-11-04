@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import { useCallback } from 'react';
 import { isDefined, isNonEmptyArray } from 'twenty-shared/utils';
 
@@ -30,8 +29,10 @@ import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomState
 import { useIsFeatureEnabled } from '@/workspace/hooks/useIsFeatureEnabled';
 import { FeatureFlagKey } from '~/generated-metadata/graphql';
 import { turnIntoEmptyStringIfWhitespacesOnly } from '~/utils/string/turnIntoEmptyStringIfWhitespacesOnly';
+import { useLingui } from '@lingui/react/macro';
 
 export const useAiChatEditor = () => {
+  const { t } = useLingui();
   const currentAiChatThread = useAtomStateValue(currentAiChatThreadState);
   const aiModels = useAtomStateValue(aiModelsState);
   const newAiChatThreadId = useAtomStateValue(newAiChatThreadIdState);
@@ -52,9 +53,7 @@ export const useAiChatEditor = () => {
   const initialDraft = agentChatDraftsByThreadId[draftKey] ?? '';
   const editor = useAdvancedTextEditor({
     profile: AI_CHAT_EDITOR_PROFILE,
-    placeholder: isAiChatInboxEnabled
-      ? t`Ask anything, @ a teammate or record, / a skill...`
-      : t`Ask anything, @ a record or / a skill...`,
+    placeholder: t`Ask, search or make anything...`,
     readonly: false,
     defaultValue: initialDraft,
     editorProps: {

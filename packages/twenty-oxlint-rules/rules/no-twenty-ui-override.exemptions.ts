@@ -26,7 +26,7 @@ export const TWENTY_UI_OVERRIDE_EXEMPTIONS = [
   },
   {
     filePath:
-      'packages/twenty-front/src/modules/front-components/media-session/components/FrontComponentMediaSessionIndicator.tsx',
+      'packages/twenty-front/src/modules/media-access/components/MediaAccessIndicator.tsx',
     reason: 'Popover.Popup sized and spaced for the recording sessions list',
   },
   {
@@ -166,6 +166,12 @@ export const TWENTY_UI_OVERRIDE_EXEMPTIONS = [
     filePath:
       'packages/twenty-front/src/modules/spreadsheet-import/components/StepNavigationButton.tsx',
     reason: 'Dialog.Footer laid out as the import step navigation bar',
+  },
+  {
+    filePath:
+      'packages/twenty-front/src/modules/side-panel/pages/page-layout/components/chart-settings/ChartSettingsDropdownSection.tsx',
+    reason:
+      'Dropdown.Section preserves the chart settings list height inside the side panel',
   },
   {
     filePath:
