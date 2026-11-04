@@ -46,7 +46,6 @@ const COLOR_BY_ENGINE_COMPONENT_KEY: Partial<
   [EngineComponentKey.EXPORT_FROM_RECORD_INDEX]: 'data',
   [EngineComponentKey.EXPORT_FROM_RECORD_SHOW]: 'data',
   [EngineComponentKey.EXPORT_MULTIPLE_RECORDS]: 'data',
-  [EngineComponentKey.EXPORT_NOTE_TO_PDF]: 'data',
   [EngineComponentKey.EXPORT_RECORDS]: 'data',
   [EngineComponentKey.EXPORT_VIEW]: 'data',
 
@@ -115,8 +114,23 @@ export const getCommandMenuItemColoredIcon = (
     return cachedIcon;
   }
 
-  const ColoredIcon = ({ style, ...props }: IconComponentProps) => (
-    <Icon {...props} color="currentColor" style={{ ...style, color: iconColor }} />
+  type ColoredIconProps = IconComponentProps;
+
+  const ColoredIcon = ({
+    className,
+    style,
+    size,
+    stroke,
+    'aria-hidden': ariaHidden,
+  }: ColoredIconProps) => (
+    <Icon
+      className={className}
+      size={size}
+      stroke={stroke}
+      aria-hidden={ariaHidden}
+      color="currentColor"
+      style={{ ...style, color: iconColor }}
+    />
   );
 
   iconsForColor.set(Icon, ColoredIcon);
